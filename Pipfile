@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+psycopg2 = "*"
+gunicorn = "*"
+whitenoise = "*"
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
+
+[dev-packages]
+flake8 = "*"
+
+[requires]
+python_version = "3.10"

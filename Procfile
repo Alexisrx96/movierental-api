@@ -1,0 +1,1 @@
+web: gunicorn movierental.wsgi --log-file -
