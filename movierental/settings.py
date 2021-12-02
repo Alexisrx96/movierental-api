@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # own
     'films',
     'casts',
+    'customers',
 ]
 
 MIDDLEWARE = [
