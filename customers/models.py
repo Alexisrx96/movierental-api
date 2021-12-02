@@ -3,6 +3,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 import os
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 from films.models import Film
 
@@ -12,9 +14,13 @@ MAX_RENT_DAYS: int = os.getenv('MAX_RENT_DAYS', 15)
 EXTRA_DAY_FEE: float = os.getenv('EXTRA_DAY_FEE', 2.0)
 
 
+def today():
+    return timezone.now().date()
+
+
 class Rent(models.Model):
     id = models.BigAutoField(primary_key=True)
-    rented_at = models.DateField(default=timezone.now)
+    rented_at = models.DateField(default=today)
     returned_at = models.DateField(null=True)
     rented_days = models.PositiveIntegerField(
         validators=[
@@ -26,7 +32,6 @@ class Rent(models.Model):
     price = models.DecimalField(
         decimal_places=2,
         max_digits=5,
-        default=1.00,
         validators=[MinValueValidator(1)]
     )
     extra_day_fee = models.DecimalField(
@@ -44,6 +49,7 @@ class Rent(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='rents',
+        limit_choices_to={'is_staff': False}
     )
 
     @property
@@ -52,10 +58,16 @@ class Rent(models.Model):
             return None
 
         timeframe = self.returned_at - self.rented_at
-        extra_days = timeframe.days - self.days_rented
+        extra_days = timeframe.days - self.rented_days
         if extra_days < 0:
             extra_days = 0
         return (
-            self.days_rented * self.price +
+            self.rented_days * self.price +
             self.extra_day_fee * extra_days
         )
+
+
+@receiver(pre_save, sender=Rent)
+def pre_save_receiver(sender, instance: Rent, *args, **kwargs):
+    if not instance.price:
+        instance.price = instance.film.price
