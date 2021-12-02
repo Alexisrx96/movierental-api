@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # third parties
+    'rest_framework',
 
     # own
     'films',
@@ -78,6 +79,16 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+
+    # 'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer')
+}
 
 WSGI_APPLICATION = 'movierental.wsgi.application'
 
