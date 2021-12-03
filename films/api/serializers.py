@@ -1,6 +1,14 @@
 from rest_framework import serializers
 
-from films.models import Film, Chapter, Season, Category
+from films.models import Film, FilmCast, Chapter, Season, Category
+from casts.api.serializers import CastMemberSerializer, CastRoleSerializer
+
+
+def season_is_from_serie(season):
+    if season.film.category.name != 'serie':
+        raise serializers.ValidationError(
+            {"season": "this season don't belong to a serie"}
+        )
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -19,9 +27,15 @@ class ChapterSerializer(serializers.ModelSerializer):
             'number',
             'season',
         ]
+        extra_kwargs = {
+            "season": {
+                "validators": [season_is_from_serie],
+            },
+        }
 
 
 class SeasonSerializer(serializers.ModelSerializer):
+    chapters = ChapterSerializer(many=True, read_only=True)
 
     class Meta:
         model = Season
@@ -32,10 +46,26 @@ class SeasonSerializer(serializers.ModelSerializer):
             'film',
             'prequel',
             'sequel',
+            'chapters',
         ]
 
 
+class FilmCastSerializer(serializers.ModelSerializer):
+    member = CastMemberSerializer(read_only=True)
+    role = CastRoleSerializer(read_only=True)
+
+    class Meta:
+        model = FilmCast
+        fields = ['member', 'role']
+
+
 class FilmSerializer(serializers.ModelSerializer):
+    cast = FilmCastSerializer(
+        source='filmcast_set',
+        many=True,
+        read_only=True,
+    )
+    seasons = SeasonSerializer(many=True, read_only=True,)
 
     class Meta:
         model = Film
@@ -47,4 +77,10 @@ class FilmSerializer(serializers.ModelSerializer):
             'price',
             'category',
             'release_date',
+            'cast',
+            'seasons',
         ]
+
+    def update(self, instance, validated_data):
+        validated_data.pop('category', None)
+        return super(FilmSerializer, self).update(instance, validated_data)
