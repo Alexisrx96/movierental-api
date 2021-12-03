@@ -19,4 +19,5 @@ from django.urls import include, path
 urlpatterns = [
     path('api/customers/', include('customers.api.urls')),
     path('api/casts/', include('casts.api.urls')),
+    path('api/films/', include('films.api.urls')),
 ]
