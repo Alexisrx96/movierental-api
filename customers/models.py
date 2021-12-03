@@ -10,7 +10,7 @@ from films.models import Film
 
 User = get_user_model()
 """This could be in the database"""
-MAX_RENT_DAYS: int = os.getenv('MAX_RENT_DAYS', 15)
+MAX_RENT_DAYS: int = int(os.getenv('MAX_RENT_DAYS', 15))
 EXTRA_DAY_FEE: float = os.getenv('EXTRA_DAY_FEE', 2.0)
 
 
