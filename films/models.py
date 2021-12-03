@@ -56,16 +56,16 @@ class Film(models.Model):
 
 
 class FilmCast(models.Model):
-    movie = models.ForeignKey(Film, on_delete=models.CASCADE)
+    film = models.ForeignKey(Film, on_delete=models.CASCADE)
     member = models.ForeignKey(CastMember, on_delete=models.CASCADE)
     role = models.ForeignKey(CastRole, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = [['movie', 'member', 'role']]
+        unique_together = [['film', 'member', 'role']]
         verbose_name = 'Cast'
 
     def __str__(self) -> str:
-        return f"{self.role} on {self.movie}"
+        return f"{self.role} on {self.film}"
 
 
 class Season(models.Model):
