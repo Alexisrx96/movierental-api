@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'films',
     'casts',
     'customers',
+    'public',
 ]
 
 MIDDLEWARE = [
