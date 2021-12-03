@@ -18,7 +18,7 @@ class CastRole(models.Model):
         return smart_text(self.name)
 
 
-class Cast(models.Model):
+class CastMember(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=200)
     birth_date = models.DateField(validators=[validate_date_not_in_future])
