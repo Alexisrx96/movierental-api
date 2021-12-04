@@ -3,7 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 import os
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 
 from films.models import Film
@@ -68,6 +68,21 @@ class Rent(models.Model):
 
 
 @receiver(pre_save, sender=Rent)
-def pre_save_receiver(sender, instance: Rent, *args, **kwargs):
+def pre_save_set_price(sender, instance: Rent, *args, **kwargs):
     if not instance.price:
         instance.price = instance.film.price
+
+    if instance.id is None:
+        pass
+    else:
+        previous = Rent.objects.get(id=instance.id)
+        if instance.returned_at and not previous.returned_at:
+            instance.film.stock = instance.film.stock + 1
+            instance.film.save()
+
+
+@receiver(post_save, sender=Rent)
+def post_save_rent(sender, instance: Rent, created, *args, **kwargs):
+    if created and not instance.returned_at:
+        instance.film.stock = instance.film.stock - 1
+        instance.film.save()
