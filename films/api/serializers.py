@@ -75,6 +75,7 @@ class FilmSerializer(serializers.ModelSerializer):
             'description',
             'stock',
             'price',
+            'availability',
             'category',
             'release_date',
             'cast',
