@@ -24,7 +24,6 @@ class RentDetailsAPIView(
     authentication_classes = []
     queryset = Rent.objects.all()
     serializer_class = RentSerializer
-    lookup_field = 'id'
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)

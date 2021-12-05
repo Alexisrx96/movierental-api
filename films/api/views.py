@@ -29,7 +29,6 @@ class FilmDetailsAPIView(
     authentication_classes = []
     queryset = Film.objects.all()
     serializer_class = FilmSerializer
-    lookup_field = 'id'
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -60,7 +59,6 @@ class ChapterDetailsAPIView(
     authentication_classes = []
     queryset = Chapter.objects.all()
     serializer_class = ChapterSerializer
-    lookup_field = 'id'
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -91,7 +89,6 @@ class SeasonDetailsAPIView(
     authentication_classes = []
     queryset = Season.objects.all()
     serializer_class = SeasonSerializer
-    lookup_field = 'id'
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -122,7 +119,6 @@ class CategoryDetailsAPIView(
     authentication_classes = []
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    lookup_field = 'id'
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)

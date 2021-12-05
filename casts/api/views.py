@@ -23,7 +23,6 @@ class CastMemberDetailsAPIView(
     authentication_classes = []
     queryset = CastMember.objects.all()
     serializer_class = CastMemberSerializer
-    lookup_field = 'id'
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -59,7 +58,6 @@ class CastRoleDetailsAPIView(
     authentication_classes = []
     queryset = CastRole.objects.all()
     serializer_class = CastRoleSerializer
-    lookup_field = 'id'
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
