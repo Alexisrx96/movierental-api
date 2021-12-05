@@ -1,36 +1,35 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, mixins
 
-from customers.api.serializers import RentSerializer, UserSerializer
-from customers.models import Rent, User
+from films.api.serializers import CategorySerializer, FilmSerializer
+from films.models.films import Category, Film
 
 
-class RentListAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class FilmListAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     permission_classes = []
     authentication_classes = []
-    queryset = Rent.objects.all()
-    serializer_class = RentSerializer
+    queryset = Film.objects.all()
+    serializer_class = FilmSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = [
-        'rented_at',
-        'returned_at',
-        'film__title',
-        'user__username',
+        'title',
+        'category__name',
+        'release_date',
     ]
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
 
-class RentDetailsAPIView(
+class FilmDetailsAPIView(
         mixins.UpdateModelMixin,
         mixins.DestroyModelMixin,
         generics.RetrieveAPIView
         ):
     permission_classes = []
     authentication_classes = []
-    queryset = Rent.objects.all()
-    serializer_class = RentSerializer
+    queryset = Film.objects.all()
+    serializer_class = FilmSerializer
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -42,31 +41,29 @@ class RentDetailsAPIView(
         return self.destroy(request, *args, **kwargs)
 
 
-class UserListAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class CategoryListAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     permission_classes = []
     authentication_classes = []
-    queryset = User.objects.filter(is_staff=False).all()
-    serializer_class = UserSerializer
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = [
-        'username',
-        'email',
+        'name',
     ]
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
 
-class UserDetailsAPIView(
+class CategoryDetailsAPIView(
         mixins.UpdateModelMixin,
         mixins.DestroyModelMixin,
         generics.RetrieveAPIView
         ):
     permission_classes = []
     authentication_classes = []
-    queryset = User.objects.filter(is_staff=False).all()
-    serializer_class = UserSerializer
-    lookup_field = 'username'
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)

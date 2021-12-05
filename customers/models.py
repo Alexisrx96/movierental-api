@@ -7,7 +7,7 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.utils import timezone
 
-from films.models import Film
+from films.models.films import Film
 
 User = get_user_model()
 """This could be in the database"""
