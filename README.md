@@ -1,6 +1,6 @@
 ## URL
 
-https://movierental-irvin.herokuapp.com/admin
+https://movierental-api.herokuapp.com/
 
 user: irvin
 password: 123456

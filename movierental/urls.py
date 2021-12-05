@@ -16,8 +16,12 @@ Including another URLconf
 from django.urls import include, path
 
 urlpatterns = [
-    path('api/customers/', include('customers.api.urls')),
-    path('api/casts/', include('casts.api.urls')),
-    path('api/films/', include('films.api.urls')),
-    path('api/', include('public.api.urls')),
+    path('api/admin/',
+         include('customers.api.urls', namespace='customers')),
+    path('api/admin/',
+         include('casts.api.urls', namespace='casts')),
+    path('api/admin/',
+         include('films.api.urls', namespace='films')),
+    path('api/',
+         include('public.api.urls', namespace='public')),
 ]
