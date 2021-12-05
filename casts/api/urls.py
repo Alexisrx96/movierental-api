@@ -1,11 +1,7 @@
 from django.conf.urls import url
 
-from casts.api.views import (
-    CastMemberListAPIView,
-    CastMemberDetailsAPIView,
-    CastRoleDetailsAPIView,
-    CastRoleListAPIView
-)
+from casts.api.views import (CastMemberDetailsAPIView, CastMemberListAPIView,
+                             CastRoleDetailsAPIView, CastRoleListAPIView)
 
 app_name = 'cast'
 

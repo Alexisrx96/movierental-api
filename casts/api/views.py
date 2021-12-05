@@ -1,6 +1,5 @@
-from rest_framework import generics
-from rest_framework import mixins
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics, mixins
 
 from casts.api.serializers import CastMemberSerializer, CastRoleSerializer
 from casts.models import CastMember, CastRole

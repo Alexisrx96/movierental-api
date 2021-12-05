@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from films.models import Film, FilmCast, Chapter, Season, Category
 from casts.api.serializers import CastMemberSerializer, CastRoleSerializer
+from films.models import Category, Chapter, Film, FilmCast, Season
 
 
 def season_is_from_serie(season):

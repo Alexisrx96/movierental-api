@@ -1,15 +1,9 @@
 from django.conf.urls import url
 
-from films.api.views import (
-    FilmListAPIView,
-    FilmDetailsAPIView,
-    ChapterListAPIView,
-    ChapterDetailsAPIView,
-    SeasonListAPIView,
-    SeasonDetailsAPIView,
-    CategoryListAPIView,
-    CategoryDetailsAPIView,
-)
+from films.api.views import (CategoryDetailsAPIView, CategoryListAPIView,
+                             ChapterDetailsAPIView, ChapterListAPIView,
+                             FilmDetailsAPIView, FilmListAPIView,
+                             SeasonDetailsAPIView, SeasonListAPIView)
 
 app_name = 'film'
 

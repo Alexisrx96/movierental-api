@@ -1,10 +1,7 @@
 from django.conf.urls import url
 
-from public.api.views import (
-    UserListAPIView,
-    FilmReturnAPIView,
-    FilmRentAPIView
-)
+from public.api.views import (FilmRentAPIView, FilmReturnAPIView,
+                              UserListAPIView)
 
 app_name = 'public'
 

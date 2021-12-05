@@ -1,11 +1,7 @@
 from django.conf.urls import url
 
-from customers.api.views import (
-    RentDetailsAPIView,
-    RentListAPIView,
-    UserDetailsAPIView,
-    UserListAPIView
-)
+from customers.api.views import (RentDetailsAPIView, RentListAPIView,
+                                 UserDetailsAPIView, UserListAPIView)
 
 app_name = 'rents'
 

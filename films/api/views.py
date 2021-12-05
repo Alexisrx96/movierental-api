@@ -1,14 +1,9 @@
-from rest_framework import generics
-from rest_framework import mixins
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics, mixins
 
-from films.api.serializers import (
-    CategorySerializer,
-    ChapterSerializer,
-    FilmSerializer,
-    SeasonSerializer
-)
-from films.models import Film, Chapter, Season, Category
+from films.api.serializers import (CategorySerializer, ChapterSerializer,
+                                   FilmSerializer, SeasonSerializer)
+from films.models import Category, Chapter, Film, Season
 
 
 class FilmListAPIView(mixins.CreateModelMixin, generics.ListAPIView):

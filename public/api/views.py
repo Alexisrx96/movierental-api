@@ -1,9 +1,8 @@
-from rest_framework import generics
-from rest_framework import mixins
+from rest_framework import generics, mixins
 
-from public.api.serializers import FilmRentSerializer, FilmReturnSerializer
 from customers.api.serializers import UserSerializer
 from customers.models import Rent, User
+from public.api.serializers import FilmRentSerializer, FilmReturnSerializer
 
 
 class UserListAPIView(generics.CreateAPIView):

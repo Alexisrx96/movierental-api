@@ -1,6 +1,5 @@
-from rest_framework import generics
-from rest_framework import mixins
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics, mixins
 
 from customers.api.serializers import RentSerializer, UserSerializer
 from customers.models import Rent, User
