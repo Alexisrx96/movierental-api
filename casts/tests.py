@@ -2,7 +2,7 @@ from django.db.utils import IntegrityError
 from django.test import TestCase
 from django.utils import timezone
 
-from .models import CastMember
+from casts.models import CastMember
 
 
 class CastTestCase(TestCase):

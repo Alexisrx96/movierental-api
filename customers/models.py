@@ -1,12 +1,13 @@
-from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
-from django.contrib.auth import get_user_model
-from django.utils import timezone
 import os
-from django.db.models.signals import pre_save, post_save
-from django.dispatch import receiver
 
-from films.models import Film
+from django.contrib.auth import get_user_model
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
+from django.utils import timezone
+
+from films.models.films import Film
 
 User = get_user_model()
 """This could be in the database"""

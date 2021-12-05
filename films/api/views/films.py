@@ -1,30 +1,35 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, mixins
 
-from casts.api.serializers import CastMemberSerializer, CastRoleSerializer
-from casts.models import CastMember, CastRole
+from films.api.serializers import CategorySerializer, FilmSerializer
+from films.models.films import Category, Film
 
 
-class CastMemberListAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class FilmListAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     permission_classes = []
     authentication_classes = []
-    serializer_class = CastMemberSerializer
+    queryset = Film.objects.all()
+    serializer_class = FilmSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['name']
+    filterset_fields = [
+        'title',
+        'category__name',
+        'release_date',
+    ]
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
 
-class CastMemberDetailsAPIView(
+class FilmDetailsAPIView(
         mixins.UpdateModelMixin,
         mixins.DestroyModelMixin,
         generics.RetrieveAPIView
         ):
     permission_classes = []
     authentication_classes = []
-    queryset = CastMember.objects.all()
-    serializer_class = CastMemberSerializer
+    queryset = Film.objects.all()
+    serializer_class = FilmSerializer
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -36,29 +41,29 @@ class CastMemberDetailsAPIView(
         return self.destroy(request, *args, **kwargs)
 
 
-class CastRoleListAPIView(
-        mixins.CreateModelMixin,
-        generics.ListAPIView
-        ):
+class CategoryListAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     permission_classes = []
     authentication_classes = []
-    serializer_class = CastRoleSerializer
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['name']
+    filterset_fields = [
+        'name',
+    ]
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
 
-class CastRoleDetailsAPIView(
+class CategoryDetailsAPIView(
         mixins.UpdateModelMixin,
         mixins.DestroyModelMixin,
         generics.RetrieveAPIView
         ):
     permission_classes = []
     authentication_classes = []
-    queryset = CastRole.objects.all()
-    serializer_class = CastRoleSerializer
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
