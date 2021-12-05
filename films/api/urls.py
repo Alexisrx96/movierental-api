@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import (
+from films.api.views import (
     FilmListAPIView,
     FilmDetailsAPIView,
     ChapterListAPIView,

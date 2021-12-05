@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework import mixins
 
-from .serializers import (
+from films.api.serializers import (
     CategorySerializer,
     ChapterSerializer,
     FilmSerializer,

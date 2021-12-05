@@ -3,9 +3,9 @@ from django.db.utils import IntegrityError
 from django.test import TestCase
 from django.utils import timezone
 
-from casts.models import Cast, CastRole
+from casts.models import CastMember, CastRole
 
-from .models import Category, Chapter, Film, FilmCast, Season
+from films.models import Category, Chapter, Film, FilmCast, Season
 
 
 class FilmTestCase(TestCase):
@@ -51,9 +51,9 @@ class FilmTestCase(TestCase):
 
 class FilmCastTestCase(TestCase):
     def setUp(self):
-        self.juan = Cast.objects.create(
+        self.juan = CastMember.objects.create(
             name="Juan Valdez", birth_date="1990-11-21")
-        self.carlos = Cast.objects.create(
+        self.carlos = CastMember.objects.create(
             name="Carlos Slim", birth_date="1990-11-21")
 
         self.actor = CastRole.objects.create(name='actor')

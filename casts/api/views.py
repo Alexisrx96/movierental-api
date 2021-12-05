@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework import mixins
 
-from .serializers import CastMemberSerializer, CastRoleSerializer
+from casts.api.serializers import CastMemberSerializer, CastRoleSerializer
 from casts.models import CastMember, CastRole
 
 

@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework import mixins
 
-from .serializers import RentSerializer, UserSerializer
+from customers.api.serializers import RentSerializer, UserSerializer
 from customers.models import Rent, User
 
 

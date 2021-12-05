@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import (
+from casts.api.views import (
     CastMemberListAPIView,
     CastMemberDetailsAPIView,
     CastRoleDetailsAPIView,
