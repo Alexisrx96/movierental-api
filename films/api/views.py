@@ -1,5 +1,6 @@
 from rest_framework import generics
 from rest_framework import mixins
+from django_filters.rest_framework import DjangoFilterBackend
 
 from films.api.serializers import (
     CategorySerializer,
@@ -15,6 +16,12 @@ class FilmListAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     authentication_classes = []
     queryset = Film.objects.all()
     serializer_class = FilmSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        'title',
+        'category__name',
+        'release_date',
+    ]
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
@@ -45,6 +52,12 @@ class ChapterListAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     authentication_classes = []
     queryset = Chapter.objects.all()
     serializer_class = ChapterSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        'title',
+        'season__film__title',
+        'season__title',
+    ]
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
@@ -75,6 +88,11 @@ class SeasonListAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     authentication_classes = []
     queryset = Season.objects.all()
     serializer_class = SeasonSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        'title',
+        'film__title',
+    ]
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
@@ -105,6 +123,10 @@ class CategoryListAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     authentication_classes = []
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        'name',
+    ]
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
