@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models.functions import Now
 from django.utils.encoding import smart_text
 
-from casts.models import Cast, CastRole, validate_date_not_in_future
+from casts.models import CastMember, CastRole, validate_date_not_in_future
 
 
 class Category(models.Model):
@@ -33,7 +33,7 @@ class Film(models.Model):
     )
     release_date = models.DateField(validators=[validate_date_not_in_future])
     roles = models.ManyToManyField(CastRole, through='FilmCast')
-    casts = models.ManyToManyField(Cast, through='FilmCast')
+    casts = models.ManyToManyField(CastMember, through='FilmCast')
 
     @property
     def availability(self):
@@ -56,16 +56,16 @@ class Film(models.Model):
 
 
 class FilmCast(models.Model):
-    movie = models.ForeignKey(Film, on_delete=models.CASCADE)
-    cast = models.ForeignKey(Cast, on_delete=models.CASCADE)
+    film = models.ForeignKey(Film, on_delete=models.CASCADE)
+    member = models.ForeignKey(CastMember, on_delete=models.CASCADE)
     role = models.ForeignKey(CastRole, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = [['movie', 'cast', 'role']]
+        unique_together = [['film', 'member', 'role']]
         verbose_name = 'Cast'
 
     def __str__(self) -> str:
-        return f"{self.role} on {self.movie}"
+        return f"{self.role} on {self.film}"
 
 
 class Season(models.Model):
@@ -101,7 +101,10 @@ class Chapter(models.Model):
     description = models.TextField()
     number = models.PositiveIntegerField()
     season = models.ForeignKey(
-        Season, on_delete=models.CASCADE, related_name='chapters')
+        Season,
+        on_delete=models.CASCADE,
+        related_name='chapters',
+    )
 
     class Meta:
         unique_together = [['season', 'number'], ['season', 'title']]
