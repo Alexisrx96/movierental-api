@@ -42,6 +42,7 @@ class CastRoleListAPIView(
         ):
     permission_classes = []
     authentication_classes = []
+    queryset = CastRole.objects.all()
     serializer_class = CastRoleSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['name']
