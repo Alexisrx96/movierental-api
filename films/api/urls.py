@@ -16,10 +16,10 @@ urlpatterns = [
         FilmDetailsAPIView.as_view(),
         name='film-detail'),
 
-    url(r'^films/$',
+    url(r'^filmcasts/$',
         FilmCastListAPIView.as_view(),
         name='filmcasts'),
-    url(r'^films/(?P<pk>\d+)/$',
+    url(r'^filmcasts/(?P<pk>\d+)/$',
         FilmCastDetailsAPIView.as_view(),
         name='filmcasts-detail'),
 
