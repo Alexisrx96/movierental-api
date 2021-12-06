@@ -2,7 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, mixins
 
 from films.api.serializers import (CategorySerializer, FilmSerializer,
-                                   FilmCastSerializer)
+                                   AddCastSerializer)
 from films.models.films import Category, Film, FilmCast
 
 
@@ -78,7 +78,7 @@ class FilmCastListAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     permission_classes = []
     authentication_classes = []
     queryset = FilmCast.objects.all()
-    serializer_class = FilmCastSerializer
+    serializer_class = AddCastSerializer
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
@@ -92,7 +92,7 @@ class FilmCastDetailsAPIView(
     permission_classes = []
     authentication_classes = []
     queryset = FilmCast.objects.all()
-    serializer_class = FilmCastSerializer
+    serializer_class = AddCastSerializer
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
