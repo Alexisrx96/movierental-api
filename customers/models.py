@@ -1,5 +1,3 @@
-import os
-
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -11,8 +9,8 @@ from films.models.films import Film
 
 User = get_user_model()
 """This could be in the database"""
-MAX_RENT_DAYS: int = int(os.getenv('MAX_RENT_DAYS', 15))
-EXTRA_DAY_FEE: float = os.getenv('EXTRA_DAY_FEE', 2.0)
+MAX_RENT_DAYS = 15
+EXTRA_DAY_FEE = 2
 
 
 def today():
@@ -62,6 +60,7 @@ class Rent(models.Model):
         extra_days = timeframe.days - self.rented_days
         if extra_days < 0:
             extra_days = 0
+
         return (
             self.rented_days * self.price +
             self.extra_day_fee * extra_days
