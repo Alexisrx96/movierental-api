@@ -86,3 +86,9 @@ class FilmSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         validated_data.pop('category', None)
         return super(FilmSerializer, self).update(instance, validated_data)
+
+
+class AddCastSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FilmCast
+        fields = ['film', 'member', 'role']
