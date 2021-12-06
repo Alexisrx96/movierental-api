@@ -8,6 +8,7 @@ from casts.models import CastMember, CastRole
 class CastMemberListAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     permission_classes = []
     authentication_classes = []
+    queryset = CastMember.objects.all()
     serializer_class = CastMemberSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['name']
