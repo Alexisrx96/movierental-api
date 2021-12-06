@@ -1,14 +1,10 @@
 from rest_framework import serializers
 
-from films.models import Film, FilmCast, Chapter, Season, Category
 from casts.api.serializers import CastMemberSerializer, CastRoleSerializer
-
-
-def season_is_from_serie(season):
-    if season.film.category.name != 'serie':
-        raise serializers.ValidationError(
-            {"season": "this season don't belong to a serie"}
-        )
+from films.api.validators import (allow_only_films_from_serie_category,
+                                  allow_only_season_from_serie_category)
+from films.models.films import Category, Film, FilmCast
+from films.models.seasons import Chapter, Season
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -29,7 +25,7 @@ class ChapterSerializer(serializers.ModelSerializer):
         ]
         extra_kwargs = {
             "season": {
-                "validators": [season_is_from_serie],
+                "validators": [allow_only_season_from_serie_category],
             },
         }
 
@@ -48,6 +44,11 @@ class SeasonSerializer(serializers.ModelSerializer):
             'sequel',
             'chapters',
         ]
+        extra_kwargs = {
+            "film": {
+                "validators": [allow_only_films_from_serie_category],
+            },
+        }
 
 
 class FilmCastSerializer(serializers.ModelSerializer):
@@ -75,6 +76,7 @@ class FilmSerializer(serializers.ModelSerializer):
             'description',
             'stock',
             'price',
+            'availability',
             'category',
             'release_date',
             'cast',
@@ -84,3 +86,9 @@ class FilmSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         validated_data.pop('category', None)
         return super(FilmSerializer, self).update(instance, validated_data)
+
+
+class AddCastSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FilmCast
+        fields = ['film', 'member', 'role']

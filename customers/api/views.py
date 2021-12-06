@@ -1,7 +1,7 @@
-from rest_framework import generics
-from rest_framework import mixins
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics, mixins
 
-from .serializers import RentSerializer, UserSerializer
+from customers.api.serializers import RentSerializer, UserSerializer
 from customers.models import Rent, User
 
 
@@ -10,6 +10,13 @@ class RentListAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     authentication_classes = []
     queryset = Rent.objects.all()
     serializer_class = RentSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        'rented_at',
+        'returned_at',
+        'film__title',
+        'user__username',
+    ]
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
@@ -24,7 +31,6 @@ class RentDetailsAPIView(
     authentication_classes = []
     queryset = Rent.objects.all()
     serializer_class = RentSerializer
-    lookup_field = 'id'
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -41,6 +47,11 @@ class UserListAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     authentication_classes = []
     queryset = User.objects.filter(is_staff=False).all()
     serializer_class = UserSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        'username',
+        'email',
+    ]
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)

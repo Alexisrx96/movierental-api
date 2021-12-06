@@ -1,17 +1,16 @@
-from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import get_user_model
-from django.utils import timezone
-import os
-from django.db.models.signals import pre_save
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
+from django.utils import timezone
 
-from films.models import Film
+from films.models.films import Film
 
 User = get_user_model()
 """This could be in the database"""
-MAX_RENT_DAYS: int = int(os.getenv('MAX_RENT_DAYS', 15))
-EXTRA_DAY_FEE: float = os.getenv('EXTRA_DAY_FEE', 2.0)
+MAX_RENT_DAYS = 15
+EXTRA_DAY_FEE = 2
 
 
 def today():
@@ -61,6 +60,7 @@ class Rent(models.Model):
         extra_days = timeframe.days - self.rented_days
         if extra_days < 0:
             extra_days = 0
+
         return (
             self.rented_days * self.price +
             self.extra_day_fee * extra_days
@@ -68,6 +68,21 @@ class Rent(models.Model):
 
 
 @receiver(pre_save, sender=Rent)
-def pre_save_receiver(sender, instance: Rent, *args, **kwargs):
+def pre_save_set_price(sender, instance: Rent, *args, **kwargs):
     if not instance.price:
         instance.price = instance.film.price
+
+    if instance.id is None:
+        pass
+    else:
+        previous = Rent.objects.get(id=instance.id)
+        if instance.returned_at and not previous.returned_at:
+            instance.film.stock = instance.film.stock + 1
+            instance.film.save()
+
+
+@receiver(post_save, sender=Rent)
+def post_save_rent(sender, instance: Rent, created, *args, **kwargs):
+    if created and not instance.returned_at:
+        instance.film.stock = instance.film.stock - 1
+        instance.film.save()
